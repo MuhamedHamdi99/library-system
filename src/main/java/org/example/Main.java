@@ -1,5 +1,8 @@
 package org.example;
 
+import org.example.DAO.BookDAO;
+import org.example.Entity.Book;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -7,15 +10,13 @@ import java.sql.DriverManager;
 public class Main {
     public static void main(String[] args) {
 
-        String url = "jdbc:sqlserver://localhost:1433;databaseName=LibraryDB;encrypt=true;trustServerCertificate=true";
-        String username = "YOUR_USERNAME";
-        String password = "YOUR_PASSWORD";
+        Book book1 = new Book("War","Muhamed",100);
+        Book book2 = new Book("War2","Ahmed",400);
+        Book book3 = new Book("War2","Hadi",700);
 
-        try(Connection con = DriverManager.getConnection(url,username,password)){
-            System.out.println("Successfully Connection");
-        } catch (Exception e) {
-           e.printStackTrace();
-        }
+        BookDAO bookDAO = new BookDAO();
+        bookDAO.findAll().forEach(System.out::println);
+
 
 
 
