@@ -55,4 +55,42 @@ public class BookDAO {
     }
 
 
+    public Book findById(int id){
+        Book book1 = new Book();
+
+        try (Connection conn = GetConnection()){
+            String sql = "Select Id,Title,Auther,Price From Books where Id = ? ";
+            PreparedStatement prep = conn.prepareStatement(sql);
+            prep.setInt(1,id);
+
+            try(ResultSet rs = prep.executeQuery()) {
+                  if(rs.next()){
+                        book1.setId(rs.getInt("Id"));
+                        book1.setTitle(rs.getString("Title"));
+                        book1.setAuther(rs.getString("Auther"));
+                        book1.setPrice(rs.getDouble("Price"));
+                        return book1;
+                            }
+                        }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+
+    public boolean deleteById(int id){
+        String sql = "Delete From Books where Id = ? ";
+        try (Connection conn = GetConnection()){
+            PreparedStatement prep = conn.prepareStatement(sql);
+            prep.setInt(1,id);
+            int row =prep.executeUpdate();
+            return row > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
 }
