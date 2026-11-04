@@ -11,11 +11,18 @@ public class Main {
         Book book3 = new Book("War2","Hadi",700);
 
         BookDAO bookDAO = new BookDAO();
+        bookDAO.insertBook(book1);
+        bookDAO.insertBook(book2);
+        bookDAO.insertBook(book3);
+
         bookDAO.findAll().forEach(System.out::println);
         System.out.println("Book of id=2 is : " + bookDAO.findById(2));
 
 
-
+        Book b = bookDAO.findById(1);
+        b.setPrice(500);
+        System.out.println(bookDAO.updateBook(b));
+        System.out.println(bookDAO.findById(1));
 
 
 

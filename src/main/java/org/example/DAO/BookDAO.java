@@ -104,6 +104,21 @@ public class BookDAO {
         }
     }
 
+    public Boolean updateBook(Book book){
+        String sql = "Update Books Set Title = ?,Author = ?,Price = ? Where Id = ?";
+        try(Connection conn = GetConnection()){
+            PreparedStatement prep = conn.prepareStatement(sql);
+            prep.setString(1,book.getTitle());
+            prep.setString(2,book.getAuthor());
+            prep.setDouble(3,book.getPrice());
+            prep.setInt(4,book.getId());
+
+            return prep.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 
 
 }
