@@ -3,10 +3,6 @@ package org.example;
 import org.example.DAO.BookDAO;
 import org.example.Entity.Book;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-
-
 public class Main {
     public static void main(String[] args) {
 
@@ -16,6 +12,7 @@ public class Main {
 
         BookDAO bookDAO = new BookDAO();
         bookDAO.findAll().forEach(System.out::println);
+        System.out.println("Book of id=2 is : " + bookDAO.findById(2));
 
 
 

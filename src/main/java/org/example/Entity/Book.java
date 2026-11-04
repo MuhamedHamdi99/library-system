@@ -1,59 +1,59 @@
 package org.example.Entity;
 
 public class Book {
-    private int id;
-    private String title;
-    private String auther;
-    private double price;
+    private int Id;
+    private String Title;
+    private String Author;
+    private double Price;
 
 public Book(){}
 
-    public Book(  String title, String auther, double price) {
-        this.id = id;
-        this.title = title;
-        this.auther = auther;
-        this.price = price;
+    public Book(  String title, String author, double price) {
+        this.Id = Id;
+        this.Title = title;
+        this.Author = author;
+        this.Price = price;
     }
 
     public int getId() {
-        return id;
+        return Id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.Id = id;
     }
 
     public String getTitle() {
-        return title;
+        return Title;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.Title = title;
     }
 
-    public String getAuther() {
-        return auther;
+    public String getAuthor() {
+        return Author;
     }
 
-    public void setAuther(String auther) {
-        this.auther = auther;
+    public void setAuthor(String author) {
+        this.Author = author;
     }
 
     public double getPrice() {
-        return price;
+        return Price;
     }
 
     public void setPrice(double price) {
-        this.price = price;
+        this.Price = price;
     }
 
     @Override
     public String toString() {
         return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", auther='" + auther + '\'' +
-                ", price=" + price +
+                "id=" + Id +
+                ", title='" + Title + '\'' +
+                ", auther='" + Author + '\'' +
+                ", price=" + Price +
                 '}';
     }
 }

@@ -2,26 +2,39 @@ package org.example.DAO;
 
 import org.example.Entity.Book;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class BookDAO {
-   private static final String url = "jdbc:sqlserver://localhost:1433;databaseName=LibraryDB;encrypt=true;trustServerCertificate=true";
-    private static final String username = "sa";
-    private static final String password = "sa";
+
 
     private Connection GetConnection() throws SQLException {
-        return DriverManager.getConnection(url,username,password);
+        try(InputStream input = BookDAO.class.getClassLoader().getResourceAsStream("db.properties")){
+
+            Properties prop = new Properties();
+            prop.load(input);
+            return DriverManager.getConnection(
+                    prop.getProperty("db.url"),
+                    prop.getProperty("db.username"),
+                    prop.getProperty("db.password")
+            );
+
+        } catch (IOException e) {
+            throw new RuntimeException("Can't read properties file : ",e);
+        }
     }
 
     public void insertBook(Book book){
-        String sql = "insert into Books(Title,Auther,Price) values(?,?,?)";
+        String sql = "Insert Into Books( Title, Author, Price) values(?,?,?)";
 
         try(Connection conn =GetConnection()) {
             PreparedStatement prep = conn.prepareStatement(sql);
             prep.setString(1, book.getTitle());
-            prep.setString(2, book.getAuther());
+            prep.setString(2, book.getAuthor());
             prep.setDouble(3,book.getPrice());
             prep.executeUpdate();
 
@@ -32,7 +45,7 @@ public class BookDAO {
     }
 
     public List<Book> findAll(){
-        String sql = "Select Id,Title,Auther,Price From Books";
+        String sql = "Select Id, Title, Author, Price From Books";
         List<Book> books = new ArrayList<>();
 
         try(Connection connection = GetConnection()) {
@@ -42,7 +55,7 @@ public class BookDAO {
                 Book b = new Book();
                 b.setId(rs.getInt("Id"));
                 b.setTitle(rs.getString("Title"));
-                b.setAuther(rs.getString("Auther"));
+                b.setAuthor(rs.getString("Author"));
                 b.setPrice(rs.getDouble("Price"));
                 books.add(b);
             }
@@ -59,7 +72,7 @@ public class BookDAO {
         Book book1 = new Book();
 
         try (Connection conn = GetConnection()){
-            String sql = "Select Id,Title,Auther,Price From Books where Id = ? ";
+            String sql = "Select Id, Title, Author, Price From Books where Id = ? ";
             PreparedStatement prep = conn.prepareStatement(sql);
             prep.setInt(1,id);
 
@@ -67,7 +80,7 @@ public class BookDAO {
                   if(rs.next()){
                         book1.setId(rs.getInt("Id"));
                         book1.setTitle(rs.getString("Title"));
-                        book1.setAuther(rs.getString("Auther"));
+                        book1.setAuthor(rs.getString("Author"));
                         book1.setPrice(rs.getDouble("Price"));
                         return book1;
                             }
