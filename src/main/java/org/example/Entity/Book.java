@@ -1,14 +1,23 @@
 package org.example.Entity;
 
+
+import jakarta.persistence.*;
+
+import java.math.BigDecimal;
+
+@Entity
+@Table(name = "Books")
 public class Book {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
     private String Title;
     private String Author;
-    private double Price;
+    private BigDecimal Price;
 
 public Book(){}
 
-    public Book(  String title, String author, double price) {
+    public Book(  String title, String author, BigDecimal price) {
         this.Id = Id;
         this.Title = title;
         this.Author = author;
@@ -39,11 +48,11 @@ public Book(){}
         this.Author = author;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return Price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.Price = price;
     }
 

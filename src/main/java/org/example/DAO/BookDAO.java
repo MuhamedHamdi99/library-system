@@ -35,7 +35,7 @@ public class BookDAO {
             PreparedStatement prep = conn.prepareStatement(sql);
             prep.setString(1, book.getTitle());
             prep.setString(2, book.getAuthor());
-            prep.setDouble(3,book.getPrice());
+            prep.setBigDecimal(3,book.getPrice());
             prep.executeUpdate();
 
         } catch (SQLException e) {
@@ -56,7 +56,7 @@ public class BookDAO {
                 b.setId(rs.getInt("Id"));
                 b.setTitle(rs.getString("Title"));
                 b.setAuthor(rs.getString("Author"));
-                b.setPrice(rs.getDouble("Price"));
+                b.setPrice(rs.getBigDecimal("Price"));
                 books.add(b);
             }
 
@@ -81,7 +81,7 @@ public class BookDAO {
                         book1.setId(rs.getInt("Id"));
                         book1.setTitle(rs.getString("Title"));
                         book1.setAuthor(rs.getString("Author"));
-                        book1.setPrice(rs.getDouble("Price"));
+                        book1.setPrice(rs.getBigDecimal("Price"));
                         return book1;
                             }
                         }
@@ -110,7 +110,7 @@ public class BookDAO {
             PreparedStatement prep = conn.prepareStatement(sql);
             prep.setString(1,book.getTitle());
             prep.setString(2,book.getAuthor());
-            prep.setDouble(3,book.getPrice());
+            prep.setBigDecimal(3,book.getPrice());
             prep.setInt(4,book.getId());
 
             return prep.executeUpdate() > 0;
