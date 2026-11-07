@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.DAO.BookDAO;
 import org.example.Entity.Book;
+import org.example.repository.BookRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -32,15 +33,12 @@ public class Main {
 //        b.setPrice(500);
 //        System.out.println(bookDAO.updateBook(b));
 //        System.out.println(bookDAO.findById(1));
-        SessionFactory sf = new Configuration().configure().buildSessionFactory();
 
-        try (Session session = sf.openSession()) {
-            Transaction tx = session.beginTransaction();
-            session.persist(new Book("War2", "Hadi", new BigDecimal("199.00")));
-            tx.commit();
-        }
+        BookRepository repo = new BookRepository();
 
-        sf.close();
+        repo.save(new Book("Clean Code", "Robert Martin", new BigDecimal("350.00")));
+        repo.findAll().forEach(System.out::println);
+
 
 
     }
