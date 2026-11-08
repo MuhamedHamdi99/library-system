@@ -34,21 +34,24 @@ public class BookRepository {
             public void updateBook(Book book){
                 try(Session session =  HibernateUtil.getSession().openSession()) {
                     Transaction tx = session.beginTransaction();
-                    session.merge(Book.class) ;
+                    session.merge(book) ;
                     tx.commit();
                 }
 
             }
 
-            public void deleteById(int id){
-               Book book= new Book();
-                try(Session session =  HibernateUtil.getSession().openSession()) {
-                    Transaction tx = session.beginTransaction();
-                   book= session.get(Book.class,id);
-                   session.remove(book);
-                   tx.commit();
-                }
-
+    public boolean deleteById(int id) {
+        try (Session session = HibernateUtil.getSession().openSession()) {
+            Transaction tx = session.beginTransaction();
+            Book book = session.get(Book.class, id);
+            if (book == null) {
+                tx.rollback();
+                return false;
             }
+            session.remove(book);
+            tx.commit();
+            return true;
+        }
+    }
 
 }
