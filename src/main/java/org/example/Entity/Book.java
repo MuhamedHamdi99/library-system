@@ -2,7 +2,7 @@ package org.example.Entity;
 
 
 import jakarta.persistence.*;
-
+import org.example.Entity.Author;
 import java.math.BigDecimal;
 
 @Entity
@@ -12,14 +12,15 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
     private String Title;
-    private String Author;
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private Author Author;
     private BigDecimal Price;
 
 public Book(){}
 
-    public Book(  String title, String author, BigDecimal price) {
-        this.Id = Id;
-        this.Title = title;
+    public Book(  String title, Author author, BigDecimal price) {
+         this.Title = title;
         this.Author = author;
         this.Price = price;
     }
@@ -40,12 +41,12 @@ public Book(){}
         this.Title = title;
     }
 
-    public String getAuthor() {
+    public  Author getAuthor() {
         return Author;
     }
 
-    public void setAuthor(String author) {
-        this.Author = author;
+    public void setAuthor( Author author) {
+        Author = author;
     }
 
     public BigDecimal getPrice() {
