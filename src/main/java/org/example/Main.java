@@ -1,8 +1,10 @@
 package org.example;
 
-import org.example.DAO.BookDAO;
+//import org.example.DAO.BookDAO;
+import org.example.Entity.Author;
 import org.example.Entity.Book;
 import org.example.repository.BookRepository;
+import org.example.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -11,34 +13,27 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 
 public class Main {
     public static void main(String[] args) {
 
-//        Book book1 = new Book("War","Muhamed",100);
-//        Book book2 = new Book("War2","Ahmed",400);
-//        Book book3 = new Book("War2","Hadi",700);
-//
-//        BookDAO bookDAO = new BookDAO();
-//        bookDAO.insertBook(book1);
-//        bookDAO.insertBook(book2);
-//        bookDAO.insertBook(book3);
-//
-//        bookDAO.findAll().forEach(System.out::println);
-//        System.out.println("Book of id=2 is : " + bookDAO.findById(2));
-//
-//
-//        Book b = bookDAO.findById(1);
-//        b.setPrice(500);
-//        System.out.println(bookDAO.updateBook(b));
-//        System.out.println(bookDAO.findById(1));
+// Demo of N+1 problem
+//        try (Session session = HibernateUtil.getSession().openSession()) {
+//            List<Author> authors = session.createQuery("from Author", Author.class).list();
+//            for (Author au : authors) {
+//                System.out.println(au.getName() + " -> " + au.getBooks().size());
+//            }
+//        }
 
-        BookRepository repo = new BookRepository();
-
-        repo.save(new Book("Clean Code", "Robert Martin", new BigDecimal("350.00")));
-        repo.findAll().forEach(System.out::println);
-
+//Solution for N+1 problem
+        try (Session session = HibernateUtil.getSession().openSession()) {
+            List<Author> authors = session.createQuery("select distinct a from Author a join fetch a.books", Author.class).list();
+            for (Author au : authors) {
+                System.out.println(au.getName() + " -> " + au.getBooks().size());
+            }
+        }
 
 
     }
